@@ -22,18 +22,20 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     private Context context;
     private List<StoriesEntity> data;
 
-    public RecyclerViewAdapter(Context context, List<StoriesEntity> data) {
+    public RecyclerViewAdapter(Context context, String date, List<StoriesEntity> data) {
         super();
         this.context = context;
         this.data = data;
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
+        public TextView tv_news_date;
         public TextView tv_news_title;
         public ImageView iv_news_preview;
 
         public ViewHolder(View itemView) {
             super(itemView);
+            this.tv_news_date = (TextView) itemView.findViewById(R.id.tv_news_date);
             this.tv_news_title = (TextView) itemView.findViewById(R.id.tv_news_title);
             this.iv_news_preview = (ImageView) itemView.findViewById(R.id.iv_news_preview);
         }
@@ -76,11 +78,19 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         return viewHolder;
     }
 
+    public void add(List<StoriesEntity> item) {
+        if (data == null)
+            return;
+        int size = data.size();
+        data.addAll(data.size(), item);
+        notifyItemInserted(size);
+    }
+
     public void add(List<StoriesEntity> item, int position) {
         if (data == null || position < 0 || position > data.size())
             return;
         data.addAll(position, item);
-        notifyItemInserted(position);
+        notifyItemInserted(item.size());
     }
 
     public void remove(int position) {
@@ -88,6 +98,14 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             return;
         data.remove(position);
         notifyItemRemoved(position);
+        notifyDataSetChanged();
+    }
+
+    public void removeAll(List<StoriesEntity> list) {
+        if (data == null || data.size() == 0)
+            return;
+        data.removeAll(list);
+        notifyItemRangeRemoved(0, list.size());
         notifyDataSetChanged();
     }
 
