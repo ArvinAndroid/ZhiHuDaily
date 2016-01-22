@@ -52,7 +52,7 @@ public class NewsLatestEntity {
         return stories;
     }
 
-    public List<TopStoriesEntity> getTop_stories() {
+    public List<TopStoriesEntity> getTopStories() {
         return topStories;
     }
 

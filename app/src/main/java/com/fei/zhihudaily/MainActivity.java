@@ -97,11 +97,11 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onSuccess(Call call, String result) {
+                day--;
                 Gson gson = new Gson();
                 NewsLatestEntity newsLatestEntity = gson.fromJson(result, NewsLatestEntity.class);
                 newsLatestEntity.getDate();
-
-                newsLatestEntity.getTop_stories();
+                newsLatestEntity.getTopStories();
 
                 if (adapter == null) {
                     stories = newsLatestEntity.getStories();
@@ -117,7 +117,7 @@ public class MainActivity extends AppCompatActivity {
     public String getDayBefore() {
 //        Calendar calendar = Calendar.getInstance();
 //        int day = calendar.get(Calendar.DATE);
-        calendar.set(Calendar.DATE, --day);
+        calendar.set(Calendar.DATE, day - 1);
 
         String dayBefore = new SimpleDateFormat("yyyyMMdd").format(calendar.getTime());
         return dayBefore;
