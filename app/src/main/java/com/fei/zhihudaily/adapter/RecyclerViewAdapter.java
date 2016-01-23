@@ -78,11 +78,18 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         return viewHolder;
     }
 
+    public void add(StoriesEntity item, int position) {
+        if (data == null || position < 0 || position > data.size())
+            return;
+        data.add(position, item);
+        notifyItemInserted(position);
+    }
+
     public void add(List<StoriesEntity> item) {
         if (data == null)
             return;
         int size = data.size();
-        data.addAll(data.size(), item);
+        data.addAll(size, item);
         notifyItemInserted(size);
     }
 
@@ -90,7 +97,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         if (data == null || position < 0 || position > data.size())
             return;
         data.addAll(position, item);
-        notifyItemInserted(item.size());
+        notifyItemInserted(position);
     }
 
     public void remove(int position) {

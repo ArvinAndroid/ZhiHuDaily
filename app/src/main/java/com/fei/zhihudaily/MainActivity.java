@@ -29,6 +29,7 @@ public class MainActivity extends AppCompatActivity {
     private LinearLayoutManager linearLayoutManager;
     private RecyclerViewAdapter adapter;
 
+    CalendarUtil calendarUtil;
     private List<StoriesEntity> stories;
 //    private Map<Integer, StoriesEntity> storiesData;
 
@@ -48,6 +49,7 @@ public class MainActivity extends AppCompatActivity {
         rv_news_list.setLayoutManager(linearLayoutManager);
         rv_news_list.addOnScrollListener(new ScrollListener());
 
+        calendarUtil = new CalendarUtil();
         loadData(ServerSetting.NEWS_LATEST);
     }
 
@@ -63,7 +65,7 @@ public class MainActivity extends AppCompatActivity {
                     if (stories != null && stories.size() > 0) {
                         stories.removeAll(stories);
 //                        adapter.removeAll(stories);
-                        CalendarUtil.getInstance().initDay();
+                        calendarUtil.initDay();
                     }
                     loadData(ServerSetting.NEWS_LATEST);
                     srl_refresh_news.setRefreshing(false);
@@ -78,7 +80,7 @@ public class MainActivity extends AppCompatActivity {
             super.onScrolled(recyclerView, dx, dy);
             if (linearLayoutManager.findLastCompletelyVisibleItemPosition() == stories.size() - 1) {
                 Toast.makeText(MainActivity.this, "滑动到底部", Toast.LENGTH_SHORT).show();
-                loadData(ServerSetting.NEWS_BEFORE + CalendarUtil.getInstance().getDayBefore());
+                loadData(ServerSetting.NEWS_BEFORE + calendarUtil.getDayBefore());
             }
         }
     }
@@ -93,7 +95,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onSuccess(Call call, String result) {
                 if (stories != null && stories.size() > 0)
-                    CalendarUtil.getInstance().day--;
+                    calendarUtil.day--;
                 Gson gson = new Gson();
                 NewsLatestEntity newsLatestEntity = gson.fromJson(result, NewsLatestEntity.class);
 //                newsLatestEntity.getDate();
