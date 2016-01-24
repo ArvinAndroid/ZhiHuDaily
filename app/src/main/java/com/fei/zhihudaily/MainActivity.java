@@ -1,17 +1,20 @@
 package com.fei.zhihudaily;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.fei.feilib.util.CalendarUtil;
 import com.fei.feilib.util.OkHttpUtil;
 import com.fei.zhihudaily.adapter.RecyclerViewAdapter;
+import com.fei.zhihudaily.entity.NewsDetailEntity;
 import com.fei.zhihudaily.entity.NewsLatestEntity;
 import com.fei.zhihudaily.entity.StoriesEntity;
 import com.fei.zhihudaily.network.ServerSetting;
@@ -51,6 +54,7 @@ public class MainActivity extends AppCompatActivity {
 
         calendarUtil = new CalendarUtil();
         loadData(ServerSetting.NEWS_LATEST);
+
     }
 
 
@@ -105,9 +109,18 @@ public class MainActivity extends AppCompatActivity {
                     stories = newsLatestEntity.getStories();
                     adapter = new RecyclerViewAdapter(MainActivity.this, newsLatestEntity.getDate(), stories);
                     rv_news_list.setAdapter(adapter);
+
                 } else {
                     adapter.add(newsLatestEntity.getStories(), stories.size());
                 }
+                adapter.setOnItemClickListener(new RecyclerViewAdapter.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(View view, Object object, int position) {
+                        Intent intent = new Intent(MainActivity.this, NewsDetailActivity.class);
+                        intent.putExtra("newsId", ((StoriesEntity) object).getId());
+                        startActivity(intent);
+                    }
+                });
             }
         });
     }

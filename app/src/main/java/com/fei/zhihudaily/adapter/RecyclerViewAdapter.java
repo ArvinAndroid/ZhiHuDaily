@@ -1,11 +1,13 @@
 package com.fei.zhihudaily.adapter;
 
 import android.content.Context;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -29,13 +31,15 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        public TextView tv_news_date;
+//        public TextView tv_news_date;
+        public RelativeLayout rl_content;
         public TextView tv_news_title;
         public ImageView iv_news_preview;
 
         public ViewHolder(View itemView) {
             super(itemView);
-            this.tv_news_date = (TextView) itemView.findViewById(R.id.tv_news_date);
+//            this.tv_news_date = (TextView) itemView.findViewById(R.id.tv_news_date);
+            this.rl_content = (RelativeLayout) itemView.findViewById(R.id.rl_content);
             this.tv_news_title = (TextView) itemView.findViewById(R.id.tv_news_title);
             this.iv_news_preview = (ImageView) itemView.findViewById(R.id.iv_news_preview);
         }
@@ -52,17 +56,17 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
      */
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, final int position) {
-        StoriesEntity storiesEntity = data.get(position);
+        final StoriesEntity storiesEntity = data.get(position);
         viewHolder.tv_news_title.setText(storiesEntity.getTitle());
         String imageUrl = storiesEntity.getImages().get(0);
         Glide.with(context).load(imageUrl).into(viewHolder.iv_news_preview);
 
         if (mOnItemClickListener != null) {
-            viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
+            viewHolder.rl_content.setOnClickListener(new View.OnClickListener() {
 
                 @Override
                 public void onClick(View v) {
-                    mOnItemClickListener.onItemClick(v, position);
+                    mOnItemClickListener.onItemClick(v, storiesEntity, position);
                 }
             });
         }
@@ -117,7 +121,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     }
 
     public interface OnItemClickListener {
-        void onItemClick(View view, int position);
+        void onItemClick(View view, Object object, int position);
     }
 
     OnItemClickListener mOnItemClickListener;
