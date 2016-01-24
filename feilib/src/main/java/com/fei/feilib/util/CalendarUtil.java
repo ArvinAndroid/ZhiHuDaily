@@ -8,19 +8,12 @@ import java.util.Calendar;
  */
 public class CalendarUtil {
 
-//    public static CalendarUtil instance;
     public Calendar calendar;
     public int day;
 
     public CalendarUtil() {
         initDay();
     }
-
-//    public static CalendarUtil getInstance() {
-//        if (instance == null)
-//            instance = new CalendarUtil();
-//        return instance;
-//    }
 
     public void initDay() {
         calendar = Calendar.getInstance();
