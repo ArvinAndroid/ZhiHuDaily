@@ -3,8 +3,6 @@ package com.fei.zhihudaily;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Xml;
-import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.widget.ImageView;
 
@@ -15,9 +13,6 @@ import com.fei.zhihudaily.network.ServerSetting;
 import com.google.gson.Gson;
 
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
-import java.security.spec.EncodedKeySpec;
 
 import okhttp3.Call;
 
@@ -39,10 +34,14 @@ public class NewsDetailActivity extends AppCompatActivity {
 
         iv_news_image = (ImageView) findViewById(R.id.iv_news_image);
         wv_news_content = (WebView) findViewById(R.id.wv_news_content);
-        wv_news_content.getSettings().setLayoutAlgorithm(WebSettings.LayoutAlgorithm.NARROW_COLUMNS);//内容重新排版
+//        wv_news_content.getSettings().setLayoutAlgorithm(WebSettings.LayoutAlgorithm.NARROW_COLUMNS);//内容重新排版
 //        wv_news_content.getSettings().setLoadWithOverviewMode(true);
-        wv_news_content.getSettings().setUseWideViewPort(true);
+//        wv_news_content.getSettings().setUseWideViewPort(true);
 
+        wv_news_content.getSettings().setJavaScriptEnabled(false);
+        wv_news_content.getSettings().setSupportZoom(false);
+        wv_news_content.getSettings().setBuiltInZoomControls(false);
+        
         loadNewsData(ServerSetting.NEWS_DETAIL + newsId);
     }
 
